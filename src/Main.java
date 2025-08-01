@@ -28,10 +28,10 @@ public class Main {
      */
 
     public static void main(String[] args) {
-        //System.out.println(findLongestPalindrome("abac"));
-        //System.out.println(findLongestPalindrome("tacag"));
+        System.out.println(findLongestPalindrome("abac"));
+        System.out.println(findLongestPalindrome("tacag"));
         System.out.println(findLongestPalindrome("wegeeksskeegyuwe"));
-        //System.out.println(findLongestPalindrome("abac"));
+        System.out.println(findLongestPalindrome("abac"));
 
     }
 
@@ -43,39 +43,35 @@ public class Main {
         // if match, increment start1 and decrement start2. write in result in start1 index, chars at start1, and same for start2
         // if don't match : increment start1 go thought the entire string
 
+        String result = s.substring(0, 1);
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
             int sameCharLastIndex = i;
             for (int j = i+1; j < s.length(); j++) {
                 if (c == s.charAt(j)) {
-                    sameCharLastIndex = j;
+                    int potentialIndex1 = i;
+                    int potentialIndex2 = j;
+
+                    String potentialPalindrome = s.substring(i, j + 1);
+                    boolean isResult = true;
+
+                    for (potentialIndex1 = i; (potentialIndex1 < potentialIndex2); potentialIndex1++) {
+                        char a = s.charAt(potentialIndex1);
+                        char b = s.charAt(potentialIndex2);
+
+                        if (a != b) {
+                            isResult = false;
+                            break;
+                        }
+                        potentialIndex2--;
+                    }
+
+                    if (isResult && potentialPalindrome.length() > result.length()) {
+                        result = potentialPalindrome;
+                    }
                 }
             }
-            if (sameCharLastIndex == i) continue;
-
-            int potentialIndex1 = i;
-            int potentialIndex2 = sameCharLastIndex;
-
-            String potentialPalindrome = s.substring(i, sameCharLastIndex+1);
-            int middleIndex = potentialPalindrome.length()/2;
-            boolean isResult = true;
-
-            for (potentialIndex1=i; (potentialIndex1!=potentialIndex2); potentialIndex1++) {
-                char a = s.charAt(potentialIndex1);
-                char b = s.charAt(potentialIndex2);
-
-                if (a != b) {
-                    isResult = false;
-                    continue;
-                }
-                potentialIndex2--;
-            }
-            if (isResult) {
-                return potentialPalindrome;
-            }
-            break;
         }
-        return null;
+        return result;
     }
-
 }
